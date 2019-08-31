@@ -9,19 +9,21 @@ package program0;
  */
 public class Runner {
 
-    private final double trackLength;
-    private final boolean roundTrip;
-    private final double printTimestep = 10.0;
+    // Length of track in one direction
+    private static final double trackLength = 300.0;
+    // Do the players turn around and run back?
+    private static final boolean roundTrip = true;
+    // How many simulated seconds do we wait before printing the speeds?
+    private static final double printTimestep = 10;
 
     private LocalRunner[] competitors;
 
     public Runner() {
-	trackLength = 600;
-	roundTrip = true;
 	LocalRunner nelly = new LocalRunner("Nelly", 30.0, 8.0);
 	LocalRunner steve = new LocalRunner("Steve", 8.8, 3.0);
 	LocalRunner usain = new LocalRunner("Usain", 41.0, 11.0);
 	this.competitors = new LocalRunner[] { nelly, steve, usain };
+	System.out.println();
     }
 
     public void simulate() {
@@ -126,6 +128,10 @@ public class Runner {
     }
 
     public static void main(String[] args) {
+	System.out.printf("The track has a one-way length of %f feet\n", trackLength);
+	System.out.printf("Players %s required to turn around and come back\n", roundTrip ? "are" : "are NOT");
+	System.out.printf("Players speeds will print in %f second intervals\n", printTimestep);
+	System.out.println();
 	Runner runner = new Runner();
 	runner.simulate();
     }
