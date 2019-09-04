@@ -14,11 +14,12 @@ public class Runner {
     // Do the players turn around and run back?
     public static final boolean roundTrip = true;
     // How many simulated seconds do we wait before printing the speeds?
-    private static final double printTimestep = 1;
+    private static final double printTimestep = 10;
 
     private StagedRunner[] competitors;
 
     public Runner() {
+	System.out.println("Runner\tMax Speed(f/s)\tAccelerations(f/s/s)");
 	StagedRunner nelly = new StagedRunner("Nelly", 30.0, 8.0);
 	StagedRunner steve = new StagedRunner("Steve", 8.8, 3.0);
 	StagedRunner usain = new StagedRunner("Usain", 41.0, 11.0);
@@ -36,9 +37,9 @@ public class Runner {
 	System.out.println();
 	double currentTime = 0;
 	do {
-	    System.out.printf("%.2f",currentTime);
+	    System.out.printf("    %.1f",currentTime);
 	    for (StagedRunner local : competitors) {
-		System.out.printf(" \t%.2f", Math.abs(local.getDistanceTravelled(currentTime)));
+		System.out.printf("   \t%.1f", Math.abs(local.getDistanceTravelled(currentTime)));
 	    }
 	    System.out.println();
 	    currentTime += printTimestep;

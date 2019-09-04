@@ -40,21 +40,23 @@ public class StagedRunner {
     double timeForTrack;
 
     double[] stageDistance, stageTime;
-    @SuppressWarnings("unchecked")
-    Function<Double, Double>[] stageInstant = new Function[]
-	    {
-		    (t) -> accelDist((double) t),
-		    (t) -> runDist((double) t),
-		    (t) -> stageDistance[2] - accelDist((double) t),
-		    (t) -> accelDist((double) t),
-		    (t) -> runDist((double) t),
-		    (t) -> 0
-	    };
+    Function<Double, Double>[] stageInstant;
 
+    @SuppressWarnings("unchecked")
     StagedRunner(String name, double maxSpeed, double acceleration) {
 	this.name = name;
 	this.maxSpeed = maxSpeed;
-	this.acceleration = acceleration;
+	System.out.printf("%s \t%.1f\t\t\t\t%s\n", name, maxSpeed, acceleration);
+	
+	this.acceleration = acceleration;stageInstant = new Function[]
+		    {
+			    (t) -> accelDist((double) t),
+			    (t) -> runDist((double) t),
+			    (t) -> stageDistance[2] - accelDist((double) t),
+			    (t) -> accelDist((double) t),
+			    (t) -> runDist((double) t),
+			    (t) -> 0
+		    };
 
 	stageDistance = new double[6];
 	stageTime = new double[6];
