@@ -2,13 +2,13 @@ package program1;
 
 /**
  * 
- * @author Jacob Loosa
+ * Submission for CS 3331 Project 2
+ * 
+ * pre-9/6: Multiple attempts that all failed 9/6/2019: Initial Release of
+ * staged variant 9/7/2019: Changed print to stop when the car is done. Made
+ * program end when all cars finish
  *
- *	Submission for CS 3331 Project 2
- *	
- *	pre-9/6: Multiple attempts that all failed
- *	9/6/2019: Initial Release of staged variant
- *	9/7/2019: Changed print to stop when the car is done. Made program end when all cars finish
+ * @author Jacob Loosa
  *
  */
 public class Car {
@@ -47,10 +47,10 @@ public class Car {
     static float[] stageInitVelocities = new float[6];
     static float[] stageTimes = new float[6];
     static State[] stageStates = new State[6];
-    
+
     // Initialize all static arrays
     static {
-	//Speed
+	// Speed
 	stageInitVelocities[0] = 0;
 	stageInitVelocities[1] = stage1Speed;
 	stageInitVelocities[2] = stage1Speed;
@@ -87,29 +87,33 @@ public class Car {
 	this.delay = delay;
 	this.isDone = false;
     }
-    
 
     String info(float time) {
 	if (isDone)
-		return String.format("%s", " \t \t \t ");
+	    return String.format("%s", " \t \t \t ");
 	if (time <= delay || time == 0) {
 	    return speedLocationFormat(0, 0);
-	}else time -= delay;
+	} else
+	    time -= delay;
 	final float tmpTime = time;
 	float location = 0;
 	// We use i < 7 here so that we can use i = 6 to detect that the lap is over
 	for (int i = 0; i < 7; i++) {
-	    if (i == 6)  {
+	    if (i == 6) {
 		isDone = true;
 		return String.format("%s", " \t Done! \t ");
 	    }
 	    if (time <= stageTimes[i]) {
-		if (stageStates[i] == State.ACCEL) return speedLocationFormat(stageInitVelocities[i] + acceleration * time, location + stageInitVelocities[i] * time + 0.5f * acceleration * time * time);
-		if (stageStates[i] == State.COAST) return speedLocationFormat(stageInitVelocities[i], location + stageInitVelocities[i] * time);
-		if (stageStates[i] == State.DECEL) return speedLocationFormat(stageInitVelocities[i] - acceleration * time, location + stageInitVelocities[i] * time + 0.5f * -acceleration * time * time);
-		throw new IllegalStateException("Stage exists but lacks a state! i="+i);
-	    }
-	    else {
+		if (stageStates[i] == State.ACCEL)
+		    return speedLocationFormat(stageInitVelocities[i] + acceleration * time,
+			    location + stageInitVelocities[i] * time + 0.5f * acceleration * time * time);
+		if (stageStates[i] == State.COAST)
+		    return speedLocationFormat(stageInitVelocities[i], location + stageInitVelocities[i] * time);
+		if (stageStates[i] == State.DECEL)
+		    return speedLocationFormat(stageInitVelocities[i] - acceleration * time,
+			    location + stageInitVelocities[i] * time + 0.5f * -acceleration * time * time);
+		throw new IllegalStateException("Stage exists but lacks a state! i=" + i);
+	    } else {
 		time -= stageTimes[i];
 		location += stageDistances[i];
 	    }
@@ -120,18 +124,22 @@ public class Car {
     float getSpeed(float time) {
 	if (time <= delay || time == 0) {
 	    return 0;
-	}else time -= delay;
+	} else
+	    time -= delay;
 	final float tmpTime = time;
 	// We use i < 7 here so that we can use i = 6 to detect that the lap is over
 	for (int i = 0; i < 7; i++) {
-	    if (i == 6) return stageInitVelocities[5];
+	    if (i == 6)
+		return stageInitVelocities[5];
 	    if (time <= stageTimes[i]) {
-		if (stageStates[i] == State.ACCEL) return stageInitVelocities[i] + acceleration * time;
-		if (stageStates[i] == State.COAST) return stageInitVelocities[i];
-		if (stageStates[i] == State.DECEL) return stageInitVelocities[i] - acceleration * time;
-		throw new IllegalStateException("Stage exists but lacks a state! i="+i);
-	    }
-	    else {
+		if (stageStates[i] == State.ACCEL)
+		    return stageInitVelocities[i] + acceleration * time;
+		if (stageStates[i] == State.COAST)
+		    return stageInitVelocities[i];
+		if (stageStates[i] == State.DECEL)
+		    return stageInitVelocities[i] - acceleration * time;
+		throw new IllegalStateException("Stage exists but lacks a state! i=" + i);
+	    } else {
 		time -= stageTimes[i];
 	    }
 	}
@@ -144,6 +152,7 @@ public class Car {
 
     /**
      * Main method
+     * 
      * @param args
      */
     public static void main(String[] args) {
@@ -153,7 +162,8 @@ public class Car {
 	System.out.println("Time(s) \t \t Car A \t \t \t \t Car B \t \t \t \t Car C");
 	System.out.println(" \t\t Speed \t Location \t Speed \t Location \t Speed \t Location");
 	for (float currentTime = 0; !carC.isDone || !carB.isDone || !carA.isDone; currentTime += 30f) {
-	    System.out.printf("%05.1f \t %s \t \t %s \t \t %s\n", currentTime, carA.info(currentTime), carB.info(currentTime), carC.info(currentTime));
+	    System.out.printf("%05.1f \t %s \t \t %s \t \t %s\n", currentTime, carA.info(currentTime),
+		    carB.info(currentTime), carC.info(currentTime));
 	}
     }
 
