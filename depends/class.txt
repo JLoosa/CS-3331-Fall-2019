@@ -1,0 +1,19 @@
+<?xml version = "1.0" ?>
+<Class>
+	<Student>
+		<Name> Jose </Name>
+		<Rank> Freshman </Rank>
+		<GPA> 0.0 </GPA>
+	</Student>
+	<Student>
+		<Name> Alma </Name>
+		<Rank> Senior </Rank>
+		<GPA> 3.49</GPA>
+	</Student>
+	<Grade>
+		<Name>Jose</Name>
+		<Assignment>Exam1</Assignment>
+		<Value>100</Value>
+		<LetterGrade>A</LetterGrade>
+	</Grade> 
+</Class>

@@ -4,9 +4,13 @@ package program1;
  * 
  * Submission for CS 3331 Project 2
  * 
- * pre-9/6: Multiple attempts that all failed 9/6/2019: Initial Release of
- * staged variant 9/7/2019: Changed print to stop when the car is done. Made
- * program end when all cars finish
+ * <ul>
+ * <li>pre-9/6: Multiple attempts that all failed</li>
+ * <li>9/6/2019: Initial Release of staged variant</li>
+ * <li>9/7/2019: Changed print to stop when the car is done. Made program end
+ * when all cars finish</li>
+ * <li>9/7/2019: Moved change log above the author annotation and made it a list</li>
+ * </ul>
  *
  * @author Jacob Loosa
  *
