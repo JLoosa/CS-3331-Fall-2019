@@ -32,6 +32,7 @@ import org.xml.sax.SAXException;
  * 
  * <ul>
  * <li>9/7/2019: Initial file, found StackOverflow post. Fun day</li>
+ * <li>9/7/2019: Minor updates to comments and removed one line of useless debug</li>
  * </ul>
  * 
  * @author Jacob Loosa
@@ -67,9 +68,10 @@ public class XMLConsole {
 	    System.exit(1);
 	}
 	currentElementNode = document.getDocumentElement();
-	System.out.println(currentElementNode.getTagName());
+	// We are assuming that it is in the form root -> child -> attribute things*
 	currentElementNode = (Element) currentElementNode.getChildNodes().item(1);
 
+	// Main loop of program. We will always show the current line and a carrot for typing input
 	while (true) {
 	    showCurrentLine();
 	    System.out.print(">");
@@ -78,6 +80,10 @@ public class XMLConsole {
 	}
     }
 
+    /**
+     * Used for the previous and next command. This one "scrolls" forwards
+     * @return
+     */
     Element nextNode() {
 	Node temp = currentElementNode;
 	while (temp == currentElementNode || (temp != null && temp.getNodeType() != Node.ELEMENT_NODE))
@@ -85,6 +91,11 @@ public class XMLConsole {
 	return temp != null ? (Element) temp : null;
     }
 
+
+    /**
+     * Used for the previous and next command. This one "scrolls" backwards
+     * @return
+     */
     Element prevNode() {
 	Node temp = currentElementNode;
 	while (temp == currentElementNode || (temp != null && temp.getNodeType() != Node.ELEMENT_NODE))
@@ -92,6 +103,11 @@ public class XMLConsole {
 	return temp != null ? (Element) temp : null;
     }
 
+    /**
+     * Used to find all of the children so we can add them to the text we show the user
+     * @param parent
+     * @return
+     */
     List<Element> getElementChildren(Element parent) {
 	if (parent.getChildNodes().getLength() == 0)
 	    return new LinkedList<Element>();
@@ -136,6 +152,7 @@ public class XMLConsole {
 		String tag = segments[0];
 		String value = segments.length == 2 ? segments[1]
 			: String.join(" ", Arrays.copyOfRange(segments, 1, segments.length));
+		// Sequential search to edit values
 		for (Element el : currentElementChildren) {
 		    if (el.getTagName().equals(tag)) {
 			el.getChildNodes().item(0).setTextContent(value);
@@ -196,6 +213,7 @@ public class XMLConsole {
 	// Exit command
 	if (command.matches("E(XIT)?")) {
 	    System.out.println("Exiting...");
+	    // I used an infinite loop at the start so this is honestly the best way to handle it
 	    System.exit(0);
 	    return;
 	}
@@ -205,7 +223,7 @@ public class XMLConsole {
     /**
      * The main launcher for the program
      * 
-     * @param args first string should be a file location. If it does no exist, the
+     * @param args first string should be a file location. If it does not exist, the
      *             user is prompted
      */
     public static void main(String[] args) {
