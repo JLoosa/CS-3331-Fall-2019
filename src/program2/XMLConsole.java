@@ -32,7 +32,10 @@ import org.xml.sax.SAXException;
  * 
  * <ul>
  * <li>9/7/2019: Initial file, found StackOverflow post. Fun day</li>
- * <li>9/7/2019: Minor updates to comments and removed one line of useless debug</li>
+ * <li>9/9/2019: Minor updates to comments and removed one line of useless
+ * debug</li>
+ * <li>9/12/2019: Corrected date in change log. Last log was typo'd. Also: more
+ * comments</li>
  * </ul>
  * 
  * @author Jacob Loosa
@@ -71,7 +74,8 @@ public class XMLConsole {
 	// We are assuming that it is in the form root -> child -> attribute things*
 	currentElementNode = (Element) currentElementNode.getChildNodes().item(1);
 
-	// Main loop of program. We will always show the current line and a carrot for typing input
+	// Main loop of program. We will always show the current line and a carrot for
+	// typing input
 	while (true) {
 	    showCurrentLine();
 	    System.out.print(">");
@@ -82,6 +86,7 @@ public class XMLConsole {
 
     /**
      * Used for the previous and next command. This one "scrolls" forwards
+     * 
      * @return
      */
     Element nextNode() {
@@ -91,9 +96,9 @@ public class XMLConsole {
 	return temp != null ? (Element) temp : null;
     }
 
-
     /**
      * Used for the previous and next command. This one "scrolls" backwards
+     * 
      * @return
      */
     Element prevNode() {
@@ -104,7 +109,9 @@ public class XMLConsole {
     }
 
     /**
-     * Used to find all of the children so we can add them to the text we show the user
+     * Used to find all of the children so we can add them to the text we show the
+     * user
+     * 
      * @param parent
      * @return
      */
@@ -133,6 +140,12 @@ public class XMLConsole {
 	return true;
     }
 
+    /**
+     * Parse the input using regular expressions. We allow for the entire command or
+     * the first letter, E.G. "change" and "c"
+     * 
+     * @param command The command to parse. Case insensitive (excluding arguments).
+     */
     void parseCommand(String command) {
 	if (command == null || command.isEmpty())
 	    return;
@@ -213,7 +226,8 @@ public class XMLConsole {
 	// Exit command
 	if (command.matches("E(XIT)?")) {
 	    System.out.println("Exiting...");
-	    // I used an infinite loop at the start so this is honestly the best way to handle it
+	    // I used an infinite loop at the start so this is honestly the best way to
+	    // handle it
 	    System.exit(0);
 	    return;
 	}
