@@ -54,7 +54,7 @@ import java.util.Scanner;
 public class Car {
 
     // Should we show debug in console?
-    public static boolean debug = true;
+    public static boolean debug = false;
 
     public static final float ACCELERATION = 15f; // Feet per second squared
     // Segments are of type Comparable<Segment>, so we can have Java handle putting
