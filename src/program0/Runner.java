@@ -2,9 +2,10 @@ package program0;
 
 /**
  * 
- * @author Jacob
  * 
- *         My submission for Program 0 Due Wednesday, September 4, 2019
+ * My submission for Program 0 Due Wednesday, September 4, 2019
+ * 
+ * @author Jacob Loosa
  *
  */
 public class Runner {
@@ -37,7 +38,7 @@ public class Runner {
 	System.out.println();
 	double currentTime = 0;
 	do {
-	    System.out.printf("    %.1f",currentTime);
+	    System.out.printf("    %.1f", currentTime);
 	    for (StagedRunner local : competitors) {
 		System.out.printf("   \t%.1f", Math.abs(local.getDistanceTravelled(currentTime)));
 	    }

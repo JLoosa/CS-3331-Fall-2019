@@ -27,7 +27,9 @@ import java.util.Scanner;
  * and Deceleration
  * 
  * <ul>
- * <li>9/13/2019: Start of code adaptation</li>
+ * <li>9/13/2019: Start and finish of code adaptation. EZ</li>
+ * <li>9/14/2019: Turned off debug more and cleaned up some comments! Almost all
+ * of the code should come with an explanation of what it does! :)</li>
  * </ul>
  *
  * @author Jacob Loosa
@@ -35,26 +37,43 @@ import java.util.Scanner;
  */
 public class Car {
 
+    // Should we show debug in console?
+    public static boolean debug = true;
+
     public static final float ACCELERATION = 15f; // Feet per second squared
     // Segments are of type Comparable<Segment>, so we can have Java handle putting
     // them in order automatically
     static List<Segment> segments;
     static float totalTrackTime;
+    static float maxCarDelay = 0;
 
     // How far does the car wait before driving
     float delay;
 
     Car(float delay) {
 	this.delay = delay;
+	maxCarDelay = Math.max(maxCarDelay, delay);
     }
 
-    private float getSpeed(float time) {
+    /**
+     * Get the speed of the car at a specific time
+     * 
+     * @param time
+     * @return the speed in feet per second
+     */
+    float getSpeed(float time) {
 	if (time <= delay)
 	    return 0;
 	time -= delay;
 	return segments.get(0).getSpeed(time);
     }
 
+    /**
+     * Get the distance of the car at a specific time
+     * 
+     * @param time
+     * @return the distance in feet
+     */
     private float getDistance(float time) {
 	if (time <= delay)
 	    return 0;
@@ -86,15 +105,21 @@ public class Car {
 	keyboard.close();
 	// Load the segments from the provided file (if possible)
 	new CarXMLReader(fileName);
+	// I made them Comparable specifically so I could have Java put them in order
 	Collections.sort(segments);
+	if (segments.get(0).getSegmentNumber() != 1) {
+	    System.err.println("Sorry, but the first segment is miraculously missing so a track cannot be formed.");
+	    System.exit(1);
+	}
 
 	printDebug("Length of segment set is: " + segments.size());
 	segments.forEach((s) -> Car.printDebug(s.toString()));
 	totalTrackTime = segments.get(0).getSegmentTime();
 
+	// This loop ensures that all of the segments can form a correct sequence
 	for (int i = 1; i < segments.size(); i++) {
 	    if (!segments.get(i - 1).setNextSegment(segments.get(i)) || !segments.get(i).setPreviousSegment(segments.get(i - 1))) {
-		System.err.println("Failed to create segment ordering. Was one missing?");
+		System.err.printf("Failed to create segment ordering. Is segment #%d missing? \n", i + 1);
 		System.exit(1);
 	    }
 
@@ -102,22 +127,22 @@ public class Car {
 
 	segments.get(0).computeKinematicsRecursively();
 	segments.forEach((s) -> totalTrackTime += s.getSegmentTime());
+	Car.printDebug("Time to complete track: " + totalTrackTime + "s");
+	Car.printDebug("Track distance: " + Kinematics.toMiles(segments.get(segments.size() - 1).getRecursiveLength()) + "miles");
 
 	Car carA = new Car(0);
 	Car carB = new Car(60);
 	Car carC = new Car(120);
 	System.out.println("Time(s) \t \t Car A \t \t \t \t Car B \t \t \t \t Car C");
 	System.out.println(" \t\t Speed \t Location \t Speed \t Location \t Speed \t Location");
-	for (float currentTime = 0; !carC.isDone(currentTime) || !carB.isDone(currentTime) || !carA.isDone(currentTime); currentTime += 3f) {
-	    System.out.printf("%05.1f \t %s \t \t %s \t \t %s\n", currentTime, carA.getPositionInfo(currentTime), carB.getPositionInfo(currentTime), carC.getPositionInfo(currentTime));
-	}
+	float currentTime = 0;
+	float timeStep = 30;
+	do {
+	    System.out.printf("%06.1f \t %s \t \t %s \t \t %s\n", currentTime, carA.getPositionInfo(currentTime), carB.getPositionInfo(currentTime), carC.getPositionInfo(currentTime));
+	    currentTime += timeStep;
+	} while (currentTime <= totalTrackTime + maxCarDelay + timeStep); // This checks if all the cars are done (+1 print after). We can do this because
+									  // we already know exactly how long it takes for the car to run the track!
     }
-
-    private boolean isDone(float currentTime) {
-	return currentTime >= totalTrackTime + delay;
-    }
-
-    public static boolean debug = true;
 
     public static void printDebug(String... output) {
 	if (!debug)

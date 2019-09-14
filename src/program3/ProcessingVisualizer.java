@@ -5,19 +5,20 @@ import processing.core.PApplet;
 public class ProcessingVisualizer extends PApplet {
 
     public static void main(String[] args) {
+	Car.main(new String[] {"depends/program3Test.xml"});
 	PApplet.main(ProcessingVisualizer.class);
     }
 
     Car car;
-    float timeStart = 0, timeEnd = 375;
-    float secondResolution, screenPadding = 15;
+    float timeStart = 0, timeEnd = Car.totalTrackTime;
+    float secondResolution, screenPadding = 60;
     float timePerSegment = 10f;
     float segmentCount;
     float segmentDistance;
 
     @Override
     public void settings() {
-	size(1200, 300);
+	size(1200, 600);
 	noLoop();
     }
 
@@ -37,7 +38,7 @@ public class ProcessingVisualizer extends PApplet {
 	strokeWeight(2);
 	beginShape();
 	for (float second = timeStart; second <= timeEnd; second++) {
-	    // TODO
+	    vertex(screenPadding + second * secondResolution, map(car.getSpeed(second), Kinematics.toFeetPerSecond(5), Kinematics.toFeetPerSecond(80), height - screenPadding, screenPadding));
 	}
 	endShape();
 	strokeWeight(1);

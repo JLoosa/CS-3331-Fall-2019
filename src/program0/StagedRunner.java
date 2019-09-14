@@ -3,33 +3,33 @@ package program0;
 import java.util.function.Function;
 
 /**
+ * The approach to this runner is to split the entire run into "stages." The
+ * stages are as follows for the one-way trip:
+ * <ul>
+ * <li>(0-2) Assumed to have finished with a total distance passed of 0</li>
+ * <li>(3) Accelerate</li>
+ * <li>(4) Run at full speed</li>
+ * <li>(5) Finish</li>
+ * </ul>
+ * because distance is covered while accelerating, it is possible to go from
+ * stage (1) to stage (3) without entering stage (2). This one-way trip will be
+ * calculated first as it is always going to be used. When the trip is two-way,
+ * the staging is a little different. It must be as follows:
+ * <ul>
+ * <li>(0) Accelerate</li>
+ * <li>(1) Run at full speed</li>
+ * <li>(2) Slow to stop</li>
+ * <li>(3) Accelerate</li>
+ * <li>(4) Run at full speed</li>
+ * <li>(5) Finish</li>
+ * </ul>
+ * This is the same as a one-way trip, but preceded by a trip in which the
+ * runner must slow. As such, we only need to know a few things for the stage
+ * distance calculations: max speed, acceleration, and time. Additionally, we
+ * may need inverse functions.
  * 
- * @author Jacob The approach to this runner is to split the entire run into
- *         "stages." The stages are as follows for the one-way trip:
- *         <ul>
- *         <li>(0-2) Assumed to have finished with a total distance passed of
- *         0</li>
- *         <li>(3) Accelerate</li>
- *         <li>(4) Run at full speed</li>
- *         <li>(5) Finish</li>
- *         </ul>
- *         because distance is covered while accelerating, it is possible to go
- *         from stage (1) to stage (3) without entering stage (2). This one-way
- *         trip will be calculated first as it is always going to be used. When
- *         the trip is two-way, the staging is a little different. It must be as
- *         follows:
- *         <ul>
- *         <li>(0) Accelerate</li>
- *         <li>(1) Run at full speed</li>
- *         <li>(2) Slow to stop</li>
- *         <li>(3) Accelerate</li>
- *         <li>(4) Run at full speed</li>
- *         <li>(5) Finish</li>
- *         </ul>
- *         This is the same as a one-way trip, but preceded by a trip in which
- *         the runner must slow. As such, we only need to know a few things for
- *         the stage distance calculations: max speed, acceleration, and time.
- *         Additionally, we may need inverse functions.
+ * 
+ * @author Jacob Loosa
  *
  */
 public class StagedRunner {
@@ -47,16 +47,9 @@ public class StagedRunner {
 	this.name = name;
 	this.maxSpeed = maxSpeed;
 	System.out.printf("%s \t%.1f\t\t\t\t%s\n", name, maxSpeed, acceleration);
-	
-	this.acceleration = acceleration;stageInstant = new Function[]
-		    {
-			    (t) -> accelDist((double) t),
-			    (t) -> runDist((double) t),
-			    (t) -> stageDistance[2] - accelDist((double) t),
-			    (t) -> accelDist((double) t),
-			    (t) -> runDist((double) t),
-			    (t) -> 0
-		    };
+
+	this.acceleration = acceleration;
+	stageInstant = new Function[] { (t) -> accelDist((double) t), (t) -> runDist((double) t), (t) -> stageDistance[2] - accelDist((double) t), (t) -> accelDist((double) t), (t) -> runDist((double) t), (t) -> 0 };
 
 	stageDistance = new double[6];
 	stageTime = new double[6];
@@ -124,12 +117,14 @@ public class StagedRunner {
     }
 
     private int i;
+
     public double getDistanceTravelled(double time) {
 	double dist = 0;
 	for (i = 0; i < 6; i++) {
-	    if (time < stageTime[i]) return dist + stageInstant[i].apply(time) * (Runner.roundTrip && i > 2 ? -1: 1);
+	    if (time < stageTime[i])
+		return dist + stageInstant[i].apply(time) * (Runner.roundTrip && i > 2 ? -1 : 1);
 	    time -= stageTime[i];
-	    dist += stageDistance[i] * (Runner.roundTrip && i > 2 ? -1: 1);
+	    dist += stageDistance[i] * (Runner.roundTrip && i > 2 ? -1 : 1);
 	}
 	return dist;
     }

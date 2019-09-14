@@ -84,6 +84,10 @@ public class CarXMLReader {
 		    } else if (eNode.getTagName().equals("LENGTH")) {
 			segmentLengthStr = eNode.getChildNodes().item(0).getTextContent();
 			segmentLength = Kinematics.toFeet(Float.parseFloat(segmentLengthStr));
+			if (segmentLength < 0.5 * Kinematics.toFeet(1)) {
+			    System.err.println("Segment length is less than the minimum of 0.5 and is therefore invalid!");
+			    err = true;
+			}
 		    } else if (eNode.getTagName().equals("SPEED_LIMIT")) {
 			segmentSpeedStr = eNode.getChildNodes().item(0).getTextContent();
 			segmentSpeed = Kinematics.toFeetPerSecond(Float.parseFloat(segmentSpeedStr));
