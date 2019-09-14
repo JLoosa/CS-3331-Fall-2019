@@ -6,14 +6,21 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * NOTICE: I really wanted to use the symbol Δ in my comments, so this file
- * requires UTF-8 Encoding!
+ * <p>
+ * <b> NOTICE: I really wanted to use the symbol Δ in my comments, so this
+ * program requires UTF-8 encoding! </b><br>
+ * -- One may try to argue that it makes the program less usable, but it's Δ, so
+ * I think it's worthwhile.
+ * </p>
  * 
+ * <p>
  * Submission for CS 3331 Project 3. Three cars, all with the same acceleration
  * but with different starting times, must drive around a 3 mile track while
  * obeying speed limits for each 1-mile segment. Unlike program 1, these track
  * speeds are configured using an XML input file.
+ * </p>
  * 
+ * <p>
  * How has the approach changed? With the ability to edit the max speeds via
  * XML, each segment of the race must now be split into three sections with
  * checks for if each of the sections is used. Essentially, the course is now
@@ -21,16 +28,25 @@ import java.util.Scanner;
  * solving. This is wonderful, because it allows for two things that were barely
  * existent in the last version: graph symmetry and extensive code reuse!
  * 
- * The code keywords are as follows: Track: The entire track, start to finish
- * Segment: Each portion of the track, separated by speed and individually
- * specified by the XML Section: Each portion of a segment, Acceleration, Coast,
- * and Deceleration
+ * The code keywords are as follows:
+ * <ul>
+ * <li>Track: The entire track, start to finish</li>
+ * <li>Segment: Each portion of the track, separated by speed and individually
+ * specified by the XML</li>
+ * <li>Section: Each portion of a segment, Acceleration, Coast, and
+ * Deceleration</li>
+ * </ul>
+ * </p>
  * 
+ * <p>
+ * Change log for this program:
  * <ul>
  * <li>9/13/2019: Start and finish of code adaptation. EZ</li>
  * <li>9/14/2019: Turned off debug more and cleaned up some comments! Almost all
- * of the code should come with an explanation of what it does! :)</li>
+ * of the code should come with an explanation of what it does! :) I also added
+ * some HTML tags for some nice-ish JavaDocs!</li>
  * </ul>
+ * </p>
  *
  * @author Jacob Loosa
  *
