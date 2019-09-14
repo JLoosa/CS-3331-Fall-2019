@@ -134,11 +134,14 @@ public class Car {
 
 	// This loop ensures that all of the segments can form a correct sequence
 	for (int i = 1; i < segments.size(); i++) {
-	    if (!segments.get(i - 1).setNextSegment(segments.get(i)) || !segments.get(i).setPreviousSegment(segments.get(i - 1))) {
-		System.err.printf("Failed to create segment ordering. Is segment #%d missing? \n", i + 1);
+	    if (!segments.get(i - 1).setNextSegment(segments.get(i))) {
+		if (segments.get(i).getSegmentNumber() < i+1) System.err.println("Error: Section #" + i + " is duplicated!");
+		if (segments.get(i).getSegmentNumber() > i+1) System.err.println("Error: Section #" + (i+1) + " is missing!");
+		if (segments.get(i).getSegmentNumber() == i+1) System.err.println("Error in linking segments!!");
+		System.err.println("Failed to create segment ordering. Exiting.");
 		System.exit(1);
 	    }
-
+	    segments.get(i).setPreviousSegment(segments.get(i - 1));
 	}
 
 	segments.get(0).computeKinematicsRecursively();

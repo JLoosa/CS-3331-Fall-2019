@@ -100,7 +100,7 @@ public class CarXMLReader {
 		}
 	    }
 	    if (err || segmentLengthStr == null || segmentNumberStr == null || segmentSpeedStr == null) {
-		System.err.println("Incomplete segment in XML. Skipping: Program may fail.");
+		System.err.println("Incomplete or erroneous segment in XML. Skipping: Program may fail.");
 	    } else {
 		Segment segment = new Segment(segmentNumber, segmentLength, segmentSpeed);
 		Car.segments.add(segment);
